@@ -1,0 +1,87 @@
+{% extends 'index.html' %}
+    {%block title%}Update Employee Details{% endblock title%}
+    {% block additional_styles %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h3 {
+            margin-top: 0;
+        }
+
+        input[type="text"],
+        input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+
+        button[type="submit"] {
+            background-color: #04AA6D;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #057e52;
+        }
+
+        p {
+            margin: 10px 0;
+        }
+    </style>
+    {% endblock %}
+
+
+{% block content %}
+    <form method="POST" action="/update/{{employee.id}}">
+        {% csrf_token %}
+        <div>
+            <h3>Update Details</h3>
+        </div>
+        <div>
+            <p>Employee Id:</p>
+            <input type="text" name="eid" value="{{employee.eid}}" />
+        </div>
+        <div>
+            <p>Employee Name:</p>
+            <input type="text" name="ename" value="{{employee.ename}}" />
+        </div>
+        <div>
+            <p>Employee Email :</p>
+            <input type="email" name="eemail" value="{{employee.eemail}}" />
+        </div>
+        <div>
+            <p>Employee Contact:</p>
+            <input type="text" name="econtact" value="{{employee.econtact}}" />
+        </div>
+        <div>
+            <button type="submit">Update</button>
+        </div>
+    </form>
+{% endblock %}

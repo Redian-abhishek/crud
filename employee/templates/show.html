@@ -1,0 +1,157 @@
+{% extends 'index.html' %}
+ 
+{% block title %}Employee Record{% endblock %}
+{% block additional_styles %}
+  <style>
+        /* Global styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 25px;
+        }
+
+        /* Table styles */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        /* Hover effect */
+       
+
+        /* Header styles */
+        th {
+            background-color: #04AA6D;
+            color: white;
+        }
+
+        /* Button styles */
+        button {
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            background-color: white;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #057e52;
+        }
+
+        /* Link styles */
+        a {
+            text-decoration: none;
+            color: #04aa5d;
+            transition: color 0.3s;
+        }
+
+       .delete-btn {
+        border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            background-color: white;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .delete-bt:hover {
+            background-color: red;
+        }
+       
+      
+     /* Edit button */
+
+
+     
+
+        /* Pagination styles */
+        .pagination {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .pagination a {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 5px;
+            background-color: #ddd;
+            margin: 0 4px;
+        }
+
+        .pagination a.active {
+            background-color: #04AA6D;
+            color: white;
+        }
+
+        .pagination a:hover {
+            background-color: #057e52;
+        }
+    </style>
+    {% endblock %}
+</head>
+
+{%block content%}
+    <table>
+        <thead>
+            <tr>
+                <th>Employee ID</th>
+                <th>Employee Name</th>
+                <th>Employee Email</th>
+                <th>Employee Contact</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for employee in page_obj %}
+            <tr>
+                <td>{{ employee.eid }}</td>
+                <td>{{ employee.ename }}</td>
+                <td>{{ employee.eemail }}</td>
+                <td>{{ employee.econtact }}</td>
+                <td>
+                    <button class="edit-btn"><a href="/edit/{{ employee.id }}">Edit</a></button>
+                    <button class="delete-btn"><a href="/delete/{{ employee.id }}">Delete</a></button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Pagination Controls -->
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; First</a>
+            <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+        
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+                <a href="#" class="active">{{ num }}</a>
+            {% else %}
+                <a href="?page={{ num }}">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">Next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+        {% endif %}
+    </div>
+
+    <br>
+    <button><a href="/emp">Add New Record</a></button>
+
+
+{% endblock %}
