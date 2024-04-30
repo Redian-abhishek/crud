@@ -19,22 +19,13 @@ def emp(request):
     return render(request, 'index.html', {'form': form})
 
 def show(request):
-    query = request.GET.get('q')
-    if query:
-        employees = Employee.objects.filter(
-            Q(eid__icontains=query) |
-            Q(ename__icontains=query) |
-            Q(eemail__icontains=query) |
-            Q(econtact__icontains=query)
-        )
-    if not employees:
-            print("Not found")
+    employees = Employee.objects.all()
 
-    paginator = Paginator(employees, 10) 
+    paginator = Paginator(employees, 10)  # Set 1 employee per page
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    return render(request, "show.html", {'page_obj': page_obj})
 
+    return render(request, "show.html", {'page_obj': page_obj})
  
 
 def edit(request, id):
@@ -55,3 +46,24 @@ def destroy(request, id):
     return redirect("/show")
 
 
+def search(request):
+    query = request.GET.get('q')
+    employees = Employee.objects.all()  
+
+    if query:
+        employees = employees.filter(                        
+            Q(id__icontains=query) |
+            Q(eid__icontains=query) |
+            Q(ename__icontains=query) |
+            Q(eemail__icontains=query) |
+            Q(econtact__icontains=query)
+        )
+
+    paginator = Paginator(employees, 10) 
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    if not page_obj:
+        print("Not found")
+
+    return render(request, "search.html", {'page_obj': page_obj})
